@@ -2,8 +2,8 @@
 from PyPDF2 import PdfFileMerger
 
 pdfs = []
-for x in range(1, 47):
-    pdfs.append('hiragana-rensyuu' + str(x) + '.pdf')
+for x in range(1, 21):
+    pdfs.append('hiragana-tango-easy' + str(x) + '.pdf')
 
 merger = PdfFileMerger()
 
