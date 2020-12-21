@@ -34,26 +34,31 @@ browser["Email"] = args.username
 browser["Password"] = args.password
 resp = browser.submit_selected()
 
-
+print('before urlopen')
 # go to the page with donwnloadable links
-html = urlopen("https://www.allkidsnetwork.com/writing/sentences/sentence-building-worksheets")
+# html = urlopen("https://www.allkidsnetwork.com/writing/sentences/sentence-building-worksheets")
+html = urlopen("https://www.allkidsnetwork.com/reading/riddles")
 bsObj = BeautifulSoup(html,"html.parser")
 result = bsObj.findAll("div", {"class": "masonry-grid-item"})
-#print(result)
+print(result)
 
 # get files with scraped downloadable filenames
-target_url_dir = 'https://www.allkidsnetwork.com/writing/sentences/worksheets/'
-download_url_dir = '/Users/daikiharaguchi/Documents/mDocuments/kids/sentences-worksheets/'
+#target_url_dir = 'https://www.allkidsnetwork.com/writing/sentences/worksheets/'
+target_url_dir = 'https://www.allkidsnetwork.com/reading/riddles/worksheets/'
+download_url_dir = '/Users/daikiharaguchi/Documents/mDocuments/kids/riddles/'
 myint = 0
 items=bsObj.select('a[data-akn-t="SectionChild|Thumbnail"]')
 for item in items:
-    file_name = item['href'].rsplit('/', 1)[-1] + '.pdf'
+    file_name = item['href'].rsplit('/', 1)[-1].replace('.asp','') + '.pdf'
     target_url = target_url_dir + file_name
+    print(target_url)
     myint = myint + 1
     download_url = download_url_dir + "sentence-worksheet" + str(myint) + '.pdf'
-    response = browser.open(target_url)
-    with open(download_url, 'wb') as f:
-        f.write(response.content)
-
+    try:
+        response = browser.open(target_url)
+        with open(download_url, 'wb') as f:
+            f.write(response.content)
+    except:
+        print('could not download the file:' + download_url)
 
 

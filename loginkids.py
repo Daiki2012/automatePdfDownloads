@@ -1,4 +1,5 @@
 #python3.8 -m loginkids.py kajik27338@septicvernon.com
+# if the page contains a list of pdfs with a simple file names with an incremented number at the end
 from __future__ import print_function
 import argparse
 import mechanicalsoup
@@ -40,4 +41,3 @@ for c in ascii_lowercase:
     response = browser.open(target_url)
     with open(download_url, 'wb') as f:
         f.write(response.content)
-
