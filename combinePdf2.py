@@ -5,7 +5,7 @@ from os import listdir
 from os.path import isfile, join
 import re
 
-def combPdf(outputDir, parentTmpDir):
+def combPdf(outputDir, parentTmpDir, subParentDir):
 
     #outputDir = os.getcwd() + '/tmp/'
     os.chdir(outputDir)
@@ -20,7 +20,9 @@ def combPdf(outputDir, parentTmpDir):
     for pdf in pdfs:
         print(pdf)
         merger.append(pdf)
-    merger.write("output.pdf")
+
+    customName = subParentDir + ".pdf"
+    merger.write(customName)
     merger.close()
     
     # go up to the original dir

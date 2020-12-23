@@ -45,11 +45,9 @@ items=bsObj.select('a[data-akn-t="SectionChild|Thumbnail"]')
 for item in items:
     turl = item['href']
     subParentUrl = homeUrl + turl
-    print("subParentUrl:" + subParentUrl)
-    subParentDir = turl.rsplit('/', 1)[-1]
-    print("subParentDir:" + subParentDir)
+    subParentDir = turl.rsplit('/', 1)[-1].replace('.asp','')
     outputDir = createDir('tmp/' + subParentDir) 
-    print("outputDir:" + outputDir)
+    #print("outputDir:" + outputDir)
 
     shtml = urlopen(subParentUrl)
     sbsObj = BeautifulSoup(shtml,"html.parser")
@@ -81,4 +79,4 @@ for item in items:
         downloadUrl = outputDir + "{0:0=2d}".format(myint) + '.pdf'
         downloadFile(targetUrl, downloadUrl, browser)
 
-    combPdf(outputDir, parentDir)
+    combPdf(outputDir, parentDir, subParentDir)

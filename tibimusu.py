@@ -8,32 +8,27 @@ from string import ascii_lowercase
 import urllib.request
 from urllib.request import urlopen
 import os, ssl
+from tool.dirCmds import createDir
+from tool.dirCmds import urllibDec
 
 
-# execute the urllib commands in Mac OS, I had to add these:
-if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-getattr(ssl, '_create_unverified_context', None)):
-    ssl._create_default_https_context = ssl._create_unverified_context
+
+# to execute urllib commands on Mac, this is needed:
+urllibDec();
+# create a directory for saving tmporary pdf files
+outputDir = createDir('tmp') 
+
 
 
 print('before urlopen')
 # go to the page with multiple donwnload links
 homeUrl = "https://happylilac.net"
-mainUrl = homeUrl + "/kazu-tasizan10.html"
+mainUrl = homeUrl + "/kazu-hikizan10.html"
 html = urlopen(mainUrl)
 bsObj = BeautifulSoup(html,"html.parser")
 result = bsObj.findAll("div", {"class": "image_column03 border"})
-print(result)
+#print(result)
 
-#https://www.allkidsnetwork.com/reading/riddles/worksheets/what-animal-is-it-zebra-worksheet.pdf
-# create a directory for saving tmporary pdf files
-outputDir = os.getcwd() + '/tmp/'
-try:
-    os.mkdir(outputDir)
-except OSError:
-    print ("Creation of the directory %s failed" % outputDir)
-else:
-    print ("Successfully created the directory %s " % outputDir)
 
 myint = 0
 prevFileName = ""
@@ -43,17 +38,17 @@ for item in items:
     # only find a file naem ending with pdf
     # ingore a file name with ans-, as this is answer file
     # ignore duplicate file names
-    if(turl.find('.pdf') > -1 and turl.find('ans-') == -1 and turl != prevFileName):
+    if(turl.find('.pdf') > -1 and turl.find('ans') == -1 and turl != prevFileName):
         print("turl:" + turl)
-        target_url = homeUrl + "/" + turl
+        targetUrl = homeUrl + "/" + turl
 
         myint += 1
-        download_url = outputDir + "tmp" + str(myint) + '.pdf'
-        #print("download:" + download_url)
+        downloadUrl = outputDir + "{0:0=2d}".format(myint) + '.pdf'
+        #print("download:" + downloadUrl)
         try:
-            urllib.request.urlretrieve(target_url, download_url)
+            urllib.request.urlretrieve(targetUrl, downloadUrl)
             prevFileName = turl
         except:
-            print('FAIL downloading: ' + target_url)
+            print('FAIL downloading: ' + targetUrl)
 
 
