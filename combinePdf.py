@@ -3,14 +3,17 @@ from PyPDF2 import PdfFileMerger
 import os
 from os import listdir
 from os.path import isfile, join
+import re
 
 outputDir = os.getcwd() + '/tmp/'
 os.chdir(outputDir)
 print(os.getcwd())
 
+
 # list all files in the tmp directory except hidden files and output file
 pdfs = [f for f in listdir(outputDir) if not f.startswith('.') and not f.startswith('output') and isfile(join(outputDir, f))]
-print(pdfs)
+# sort
+pdfs.sort(key=lambda f: int(re.sub('\D', '', f)))
 
 merger = PdfFileMerger()
 for pdf in pdfs:

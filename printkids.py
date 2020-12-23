@@ -1,17 +1,12 @@
-#python3.8 -m loginkids2.py kajik27338@septicvernon.com
-from __future__ import print_function
-import argparse
 from bs4 import BeautifulSoup
-import urllib.request
 from urllib.request import urlopen
-import os, ssl
+from urllib.request import urlretrieve
+from tool.dirCmds import createDir
+from tool.urllibCmds import urllibDec
 
 
-# execute the urllib commands in Mac OS, I had to add these:
-if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-getattr(ssl, '_create_unverified_context', None)):
-    ssl._create_default_https_context = ssl._create_unverified_context
-
+# to execute urllib commands on Mac, this is needed:
+urllibDec();
 
 print('before urlopen')
 # go to the page with multiple donwnload links
@@ -23,13 +18,7 @@ result = bsObj.findAll("div", {"id": "topic"})
 print(result)
 
 # create a directory for saving tmporary pdf files
-outputDir = os.getcwd() + '/tmp/'
-try:
-    os.mkdir(outputDir)
-except OSError:
-    print ("Creation of the directory %s failed" % outputDir)
-else:
-    print ("Successfully created the directory %s " % outputDir)
+outputDir = createDir('tmp') 
 
 myint = 0
 prevFileName = ""
@@ -43,12 +32,16 @@ for item in items:
         target_url = homeUrl + "/" + turl
 
         myint += 1
-        download_url = outputDir + "tmp" + str(myint) + '.pdf'
+        # create a file with 2 digits number '01.pdf'
+        download_url = outputDir + "{0:0=2d}".format(myint) + '.pdf'
         #print("download:" + download_url)
         try:
-            urllib.request.urlretrieve(target_url, download_url)
+            urlretrieve(target_url, download_url)
             prevFileName = turl
         except:
             print('FAIL downloading: ' + target_url)
+
+
+
 
 
