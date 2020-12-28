@@ -23,7 +23,7 @@ outputDir = createDir('tmp')
 print('before urlopen')
 # go to the page with multiple donwnload links
 homeUrl = "https://happylilac.net"
-mainUrl = homeUrl + "/kazu-hikizan10.html"
+mainUrl = homeUrl + "/keisan-tasizan-06.html"
 html = urlopen(mainUrl)
 bsObj = BeautifulSoup(html,"html.parser")
 result = bsObj.findAll("div", {"class": "image_column03 border"})
